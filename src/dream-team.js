@@ -24,11 +24,10 @@ function createDreamTeam(members) {
             acc += element[0];
         }
     })
-    return acc;
+    return acc.toUpperCase();
 }
 
 module.exports = {
   createDreamTeam
 };
 
-console.log(createDreamTeam(['Olivia', 1111, 'Lily', 'Oscar', true, null]))
