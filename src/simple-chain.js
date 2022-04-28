@@ -11,18 +11,23 @@ const chainMaker = {
     },
     addLink(value='') {
         this.result.push(`(${value})`);
+        return this;
     },
     removeLink(position) {
-        if (this.result[position-1] === undefined) {
-            return Error("You can't remove incorrect link!")
+        if (!Number.isInteger(position)|| !(position > 0 && position < this.result.length)) {
+            this.result.length = 0;
+            throw new Error("You can\'t remove incorrect link!");        
         }
-    this.result.splice(position-1, 1);
+        this.result.splice(position-1, 1);
     },
     reverseChain() {
     this.result.reverse();
+    return this;
     },
     finishChain() {
-    return this.result.join('~~')
+    const returnResult = this.result.join('~~');
+    this.result.length = 0;
+    return returnResult;
     }
 };
 
