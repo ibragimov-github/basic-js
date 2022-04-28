@@ -17,17 +17,34 @@ function createDreamTeam(members) {
     if (!Array.isArray(members)) {
         return false;
     }
-    members.sort();
+    members = members.map(el => {
+        if (typeof el === 'string') {
+            return el.split(' ').join('').toUpperCase();
+        }
+    }).sort();
     let acc = '';
     members.forEach(element => {
         if (typeof element === 'string') {
             acc += element[0];
         }
     })
-    return acc.toUpperCase();
+    return acc;
 }
 
 module.exports = {
   createDreamTeam
 };
-
+const value = [
+    ['David Abram'],
+    ['Robin Attfield'],
+    'Thomas Berry',
+    ['Paul R.Ehrlich'],
+    'donna Haraway',
+    ' BrIaN_gOodWiN  ',
+    {
+      0: 'Serenella Iovino'
+    },
+    'Erazim Kohak',
+    '  val_plumwood',
+  ];
+console.log(createDreamTeam(value))
