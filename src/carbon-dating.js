@@ -19,7 +19,7 @@ const HALF_LIFE_PERIOD = 5730;
  */
 function dateSample(sampleActivity) {
     if (isNaN(+sampleActivity || +sampleActivity <= 0 || typeof sampleActivity !== 'string' || sampleActivity.length === 0) ||      
-     +sampleActivity >= 3|| sampleActivity === '') {
+     3>+sampleActivity || sampleActivity === '') {
         return false;
     }
     let t = Math.log(MODERN_ACTIVITY/+sampleActivity)/(0.693/HALF_LIFE_PERIOD);
@@ -32,3 +32,4 @@ function dateSample(sampleActivity) {
 module.exports = {
   dateSample
 };
+console.log(dateSample(30))
