@@ -26,3 +26,4 @@ module.exports = {
 };
 
 
+console.log(calculateHanoi(4, 30))
