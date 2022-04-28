@@ -19,6 +19,8 @@ const chainMaker = {
             throw new Error("You can\'t remove incorrect link!");        
         }
         this.result.splice(position-1, 1);
+        return this;
+        
     },
     reverseChain() {
     this.result.reverse();

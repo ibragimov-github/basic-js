@@ -15,36 +15,50 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function transform(arr) {
     const result = [];
-    let command = '';
+    const commands = {
+        '--discard-next': [],
+        '--discard-prev': [],
+        '--double-next': [],
+        '--double-prev': []
+    };
     if (!Array.isArray(arr)) {
-        return Error("'arr' parameter must be an instance of the Array!")
+        return Error("'arr' parameter must be an instance of the Array!");
     }
-    for (let i = 0; i<arr.length;i++) {
-        if (typeof arr[i] !== 'string') {
-            if (!command) {
-                result.push(arr[i]);
-            }
-            else {
-                if (command === '--discard-next') {
-                    command = '';
+    for (let i in arr) {
+        if (typeof arr[i] === 'number') {
+            result.push(arr[i])
+        }
+        else {
+            commands[arr[i]].push(+i);
+        }
+    }
+    for (let i in commands) {
+        if (i === '--discard-next') {
+            for (let x of commands[i]) {
+                if (result[x] !== undefined) {
+                    result.splice(x, 1);
                 }
             }
         }
-        else {
-            command = arr[i];
-            if (command === '--discard-prev') {
-                result.pop();
-                command = '';
-            }
-            if (command === '--double-prev') {
-                if (arr[i-1] !== undefined) {
-                    result.push(arr[i-1]);
+        if (i === '--discard-prev') {
+            for (let x of commands[i]) {
+                if (result[x-1] !== undefined) {
+                    result.splice(x-1, 1);
                 }
-                command = '';
             }
-            if (command === '--double-next') {
-                result.push(arr[i+1]);
-                command = '';
+        }
+        if (i === '--double-next') {
+            for (let x of commands[i]) {
+                if (result[x] !== undefined) {
+                    result.splice(x, 0, result[x]);
+                }
+            }
+        }
+        if (i === '--double-prev') {
+            for (let x of commands[i]) {
+                if (result[x-1] !== undefined) {
+                    result.splice(x-1, 0, result[x]);
+                }
             }
         }
     }
@@ -56,4 +70,4 @@ module.exports = {
 };
 
 
-
+console.log(transform([1, 2, 3, 4, 5]))
