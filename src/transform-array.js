@@ -14,60 +14,29 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform(arr) {
-    const result = [];
-    const commands = {
-        '--discard-next': [],
-        '--discard-prev': [],
-        '--double-next': [],
-        '--double-prev': []
-    };
     if (!Array.isArray(arr)) {
-        return Error("'arr' parameter must be an instance of the Array!");
+        throw new Error('\'arr\' parameter must be an instance of the Array!');
     }
-    for (let i in arr) {
-        if (typeof arr[i] === 'number') {
-            result.push(arr[i])
+    const result = [...arr];
+    result.forEach((element, i) => {
+        if (element === '--discard-prev') {
+            result[i] = undefined;
+            result[i-1] = undefined;
         }
-        else {
-            commands[arr[i]].push(+i);
+        if (element === '--discard-next') {
+            result[i] = undefined;
+            result[i+1] = undefined;
         }
-    }
-    for (let i in commands) {
-        if (i === '--discard-next') {
-            for (let x of commands[i]) {
-                if (result[x] !== undefined) {
-                    result.splice(x, 1);
-                }
-            }
+        if (element === '--double-next') {
+            result[i] = result[i+1];        
         }
-        if (i === '--discard-prev') {
-            for (let x of commands[i]) {
-                if (result[x-1] !== undefined) {
-                    result.splice(x-1, 1);
-                }
-            }
-        }
-        if (i === '--double-next') {
-            for (let x of commands[i]) {
-                if (result[x] !== undefined) {
-                    result.splice(x, 0, result[x]);
-                }
-            }
-        }
-        if (i === '--double-prev') {
-            for (let x of commands[i]) {
-                if (result[x-1] !== undefined) {
-                    result.splice(x-1, 0, result[x]);
-                }
-            }
-        }
-    }
-    return result;
+        if (element === '--double-prev') {
+            result[i] = result[i-1];        
+        }  
+    });
+    return result.filter(element => element !== undefined)
 }
 
 module.exports = {
   transform
 };
-
-
-console.log(transform([1, 2, 3, 4, 5]))
