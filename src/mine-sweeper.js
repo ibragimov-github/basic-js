@@ -23,11 +23,113 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+    let matrixResult = matrix.map(item => {
+        return [...item]
+    });
+    for (let indexArray in matrix) {
+        indexArray = +indexArray
+        let acc = 0;
+        for (let indexElement in matrix[indexArray]) {
+            indexElement = + indexElement
+            if (indexElement === 0) {
+                if (indexArray === 0) {
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement+1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+                if (indexArray === matrix.length -1) {
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement+1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+                else if (indexArray !== 0 && indexArray !== matrix.length -1 ){
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement+1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+            }
+            if (indexElement === matrix[indexArray].length -1) {
+                if (indexArray === 0) {
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+                if (indexArray === matrix.length -1) {
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+                else if (indexArray !== 0 && indexArray !== matrix.length -1 ){
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement+1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+            }
+            if (indexArray === 0) {
+                if (indexElement !== 0 && indexElement !== matrix[indexArray].length -1) {
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement+1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+            }
+            if (indexArray === matrix.length -1) {
+                if (indexElement !== 0 && indexElement !== matrix[indexArray].length -1) {
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement-1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+            }
+            if (indexArray !== 0 && indexArray !== matrix.length -1) {
+                if (indexElement !== 0 && indexElement !== matrix[indexArray].length -1) {
+                    if(matrix[indexArray][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement-1] === true) {acc++}
+                    if(matrix[indexArray-1][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement+1] === true) {acc++}
+                    if(matrix[indexArray+1][indexElement-1] === true) {acc++}
+                    matrixResult[indexArray][indexElement] = acc;
+                    acc = 0;
+                }
+            }
+        }
+    }
+    return matrixResult;
 }
 
 module.exports = {
   minesweeper
 };
+
+const matrix = [
+    [true, false, false],
+    [false, true, false],
+    [false, false, false]
+   ];
+console.log(minesweeper(matrix))
